@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace anonymousThreat
+{
+    class anonymousThreat
+    {
+        static void Main(string[] args)
+        {
+            List<string> input = Console.ReadLine().Split().ToList();
+            string command = Console.ReadLine();
+            while (command != "3:1")
+            {
+                string[] instructions = command.Split();
+                if (instructions[0] == "merge")
+                {
+                    int mergeStart = int.Parse(instructions[1]);
+                    int mergeEnd = int.Parse(instructions[2]);
+                    MergeTheElements(input, mergeStart, mergeEnd);
+                }
+                else if (instructions[0] == "divide")
+                {
+                    int divisionIndex = int.Parse(instructions[1]);
+                    int partitions = int.Parse(instructions[2]);
+                    //There is no test with 0 partition even though it's said partitions are in range [0, 100]; 
+                    if (partitions == 0 || input[divisionIndex].Length == 1)
+                    {
+                        command = Console.ReadLine();
+                        continue;
+                    }
+                    DivideTheElement(input, divisionIndex, partitions);
+                }
+                command = Console.ReadLine();
+            }
+            Console.WriteLine(string.Join(" ", input));
+        }
+
+        static void MergeTheElements(List<string> input, int start, int end)
+        {
+            start = ValidateTheIndex(start, input);
+            end = ValidateTheIndex(end, input);
+            string mergedElements = string.Empty;
+            for (int i = start; i <= end; i++)
+            {
+                mergedElements += input[i];
+            }
+            input.Insert(start, mergedElements);
+            input.RemoveRange(start + 1, end - start + 1);
+        }
+
+        static void DivideTheElement(List<string> input, int divisionIndex, int partitions)
+        {
+            int partitionLength = input[divisionIndex].Length / partitions;
+            int lastPartitionLength = input[divisionIndex].Length % partitions;
+            string partitionElement = string.Empty;
+            List<string> newCreatedElements = new List<string>();
+            for (int i = 0; i < partitions; i++)
+            {
+                if (i == partitions - 1)
+                {
+                    partitionLength += lastPartitionLength;
+                }
+                partitionElement = input[divisionIndex].Substring(0, partitionLength);
+                input[divisionIndex] = input[divisionIndex].Substring(partitionLength);
+                newCreatedElements.Add(partitionElement);
+                partitionElement = string.Empty;
+            }
+            input.Remove(input[divisionIndex]); //removing it because it's now empty ;
+            int length = newCreatedElements.Count();
+            for (int i = 0; i < length; i++)
+            {
+                input.Insert(divisionIndex + i, newCreatedElements[i]);
+            }
+        }
+
+        static int ValidateTheIndex(int index, List<string> input)
+        {
+            if (index < 0)
+            {
+                index = 0;
+            }
+            if (index > input.Count - 1)
+            {
+                index = input.Count - 1;
+            }
+            return index;
+        }
+    }
+}
