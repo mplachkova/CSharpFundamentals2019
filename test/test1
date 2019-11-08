@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace legendaryFarming
+{    //You’ve done all the work and the last thing left to accomplish is to own a legendary item.
+     //The possible items are:
+     //Shadowmourne - requires 250 Shards;
+     //Valanyr - requires 250 Fragments;
+     //Dragonwrath - requires 250 Motes;
+     //Shards, Fragments and Motes are the key materials and everything else is junk.
+     //Keep track of the key materials - the first one that reaches the 250 mark, wins the race.
+     //At that point you have to print that the corresponding legendary item is obtained.
+     //Then, print the remaining shards, fragments, motes, ordered by quantity in descending order,
+     //then by name in ascending order, each on a new line.
+     //Finally, print the collected junk items in alphabetical order.
+    class legendaryFarming
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> mainMaterialsCount = new Dictionary<string, int>();
+            mainMaterialsCount.Add("shards", 0);
+            mainMaterialsCount.Add("motes", 0);
+            mainMaterialsCount.Add("fragments", 0);
+            Dictionary<string, int> junkMaterialsCount = new Dictionary<string, int>();
+            bool weaponIsMade = false;
+            string weaponName = string.Empty;
+            while (!weaponIsMade)
+            {
+                string[] materials = Console.ReadLine().Split();
+                int cycleLength = materials.Length;
+                for (int i = 0; i < cycleLength; i += 2)
+                {
+                    int materialsCount = int.Parse(materials[i]);
+                    string materialType = materials[i + 1].ToLower();
+                    bool isMainMaterial = materialType == "shards" || materialType == "fragments" || materialType == "motes";
+                    if (isMainMaterial)
+                    {
+                        DictionaryAddMaterial(mainMaterialsCount, materialType, materialsCount);
+                        materialsCount = mainMaterialsCount[materialType];
+                        if (materialsCount >= 250)
+                        {
+                            switch (materialType)
+                            {
+                                case "shards":
+                                    weaponName = "Shadowmourne";
+                                    break;
+                                case "motes":
+                                    weaponName = "Dragonwrath";
+                                    break;
+                                case "fragments":
+                                    weaponName = "Valanyr";
+                                    break;
+                            }
+                            mainMaterialsCount[materialType] -= 250;
+                            weaponIsMade = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        DictionaryAddMaterial(junkMaterialsCount, materialType, materialsCount);
+                    }
+                }
+            }
+            mainMaterialsCount = mainMaterialsCount.OrderByDescending(d => d.Value).ThenBy(d => d.Key).ToDictionary(x => x.Key, x => x.Value);
+            junkMaterialsCount = junkMaterialsCount.OrderBy(j => j.Key).ToDictionary(j => j.Key, j => j.Value);
+            Console.WriteLine($"{weaponName} obtained!");
+            foreach (var material in mainMaterialsCount)
+            {
+                Console.WriteLine($"{material.Key}: {material.Value}");
+            }
+            foreach (var material in junkMaterialsCount)
+            {
+                Console.WriteLine($"{material.Key}: {material.Value}");
+            }
+        }
+
+        private static void DictionaryAddMaterial(Dictionary<string, int> currentDictionary, string materialType, int materialsCount)
+        {
+            if (!currentDictionary.ContainsKey(materialType))
+            {
+                currentDictionary.Add(materialType, 0);
+            }
+            currentDictionary[materialType] += materialsCount;
+        }
+    }
+}
