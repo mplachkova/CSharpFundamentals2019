@@ -13,7 +13,10 @@ namespace changeList
         //You should stop the program when you receive the command "end".Print the numbers in the array separated by a single whitespace.
         static void Main(string[] args)
         {
-            List<string> input = Console.ReadLine().Split().ToList();
+            List<string> input = Console
+                .ReadLine()
+                .Split()
+                .ToList();
             string command = Console.ReadLine();
             while (command != "end")
             {
