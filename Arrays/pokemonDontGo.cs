@@ -20,7 +20,10 @@ namespace pokemonDontGo
     {
         static void Main(string[] args)
         {
-            List<int> pokemonsInitial = Console.ReadLine().Split().Select(int.Parse).ToList();
+            List<int> pokemonsInitial = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToList();
             List<int> removedElementsList = new List<int>();
             while (pokemonsInitial.Count != 0)
             {
