@@ -12,8 +12,16 @@ namespace bombNumber
     {
         static void Main(string[] args)
         {
-            List<int> inputList = Console.ReadLine().Split().Select(int.Parse).ToList();
-            int[] instructions = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            List<int> inputList = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToList();
+            
+            int[] instructions = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            
             int specialNumber = instructions[0];
             int specialNumPower = instructions[1];
 
