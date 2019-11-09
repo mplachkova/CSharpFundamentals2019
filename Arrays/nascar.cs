@@ -18,7 +18,9 @@ namespace nascar
     {
         static void Main(string[] args)
         {
-            List<string> initialRacersList = Console.ReadLine().Split().ToList();
+            List<string> initialRacersList = Console.ReadLine()
+                .Split()
+                .ToList();
             string command = Console.ReadLine();
             while (command != "end")
             {
