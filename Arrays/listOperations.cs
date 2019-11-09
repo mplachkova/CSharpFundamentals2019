@@ -16,7 +16,9 @@ namespace listOperations
         //Note: there is a possibility that the given index is outside of the bounds of the array. In that case print "Invalid index".
         static void Main(string[] args)
         {
-            List<string> inputList = Console.ReadLine().Split().ToList();
+            List<string> inputList = Console.ReadLine()
+                .Split()
+                .ToList();
             string[] command = Console.ReadLine().Split();
 
             while (command[0] != "End")
