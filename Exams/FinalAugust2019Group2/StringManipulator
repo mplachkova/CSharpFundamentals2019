@@ -1,0 +1,61 @@
+using System;
+
+namespace StringManipulator
+{
+    //Create a program that executes changes over a string. First, you are going to receive the string, then commands.
+    //You will be receiving commands until the "Done" command.There are six possible commands:
+    //"Change {char} {replacement}" Replace all occurences of { char} with {replacement}, then print the string.
+    //"Includes {string}" Check if the string includes with {string} and print "True/False".
+    //"End {string}" Check if the string ends with {string} and print "True/False".
+    //"Uppercase" Make the whole string uppercased, then print it.
+    //"FindIndex {char}" Find the first index of { char}, then print it.
+    //"Cut {startIndex} {length}" Remove all characters from the string except for those starting from {startIndex} and the next {length} characters, then print it
+    //The input will always be valid.
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string manipulatedString = Console.ReadLine();
+            string command = Console.ReadLine();
+            while (command != "Done")
+            {
+                string[] instructions = command.Split();
+                string action = instructions[0];
+                switch (action)
+                {
+                    case "Change":
+                        char replacedChar = char.Parse(instructions[1]);
+                        char replacement = char.Parse(instructions[2]);
+                        manipulatedString = manipulatedString.Replace(replacedChar, replacement);
+                        break;
+                    case "Includes":
+                        string keyWord = instructions[1];
+                        Console.WriteLine(manipulatedString.Contains(keyWord));
+                        break;
+                    case "End":
+                        string endWord = instructions[1];
+                        Console.WriteLine(manipulatedString.EndsWith(endWord));
+                        break;
+                    case "Uppercase":
+                        manipulatedString = manipulatedString.ToUpper();
+                        break;
+                    case "FindIndex":
+                        char keyChar = char.Parse(instructions[1]);
+                        int wantedIndex = manipulatedString.IndexOf(keyChar);
+                        Console.WriteLine(wantedIndex);
+                        break;
+                    case "Cut":
+                        int startIndex = int.Parse(instructions[1]);
+                        int cutLength = int.Parse(instructions[2]);
+                        manipulatedString = manipulatedString.Substring(startIndex, cutLength);
+                        break;
+                }
+                if (action != "End" && action != "Includes" && action != "FindIndex")
+                {
+                    Console.WriteLine(manipulatedString);
+                }
+                command = Console.ReadLine();
+            }
+        }
+    }
+}
